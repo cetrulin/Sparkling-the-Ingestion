@@ -241,19 +241,10 @@ def explodePath(dataFrame, pathString, avoid_explode, debug=False, tmpColSeparat
 ''' Create aliases for exploded fields to not loose the fields path when expanding the fields '''
 def create_alias_4exploded(exploded, result_names_dict, result):
    if get_number_of_struct_fields(result.selectExpr(exploded).schema)>1: 
-       # e.g. exploded childs of room.participation.snapshot
-       #    EXPLODED_room_participation_snapshot._VALUE AS room_participation_snapshot__VALUE
-       #    EXPLODED_room_participation_snapshot._companyID AS room_participation_snapshot__companyID 
-       #    EXPLODED_room_participation_snapshot._firstName AS room_participation_snapshot__firstName 
-       #    EXPLODED_room_participation_snapshot._isComplianceEnabled AS room_participation_snapshot__isComplianceEnabled
-       #    EXPLODED_room_participation_snapshot._lastName AS room_participation_snapshot__lastName
-       #    EXPLODED_room_participation_snapshot._timeStamp AS room_participation_snapshot__timeStamp 
-       #    EXPLODED_room_participation_snapshot._userID AS room_participation_snapshot__userID
-       # edit: exploded added also here (at the end) to avoid dups when we dont explode by that value (e.g. room_participation_snapshot__userID_exploded)
+       # edit: exploded added also here (at the end) to avoid dups when we dont explode by that value 
        return [exploded+'.'+name+' AS '+str.replace(exploded,'EXPLODED_','')+'_'+name for name in result.selectExpr(exploded+'.*').schema.names]
    else: 
        # All the single structs inside arrays have are given the names below (exploded array only have one struct with one single child)
-       # e.g. EXPLODED_room_membership_members_userID AS room_membership_members_userID_exploded
        # added exploded at the end to avoid some duplicates in field names in edge cases
        return [exploded+' AS '+str.replace(result_names_dict[exploded],'.','_')+'_exploded'] 
  
