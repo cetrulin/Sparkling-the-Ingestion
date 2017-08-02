@@ -305,7 +305,7 @@ xml_input = xml_input.withColumn("disk", lit(input_disk_number))
 xml_input_tmp=flat_and_explode_XML(xml_input,dont_explode_these_fields=[],debug=True)
 
 # Exclusion of columns and dedup
-xml_input_final=xml_input_BB_tmp.select(exclude_fields(xml_input_BB_tmp.schema.names,columns_to_exclude)+[col('')]) #.distinct()  (not deduping)
+xml_input_final=xml_input_tmp.select(exclude_fields(xml_input_tmp.schema.names,columns_to_exclude)+[col('')]) #.distinct()  (not deduping)
 
 # Write new table to Hive table
 print("Writing XML - to Hive table")
