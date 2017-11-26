@@ -297,7 +297,7 @@ xml_input = spark.read.format("com.databricks.spark.xml")\
             .option("rowTag", source_xml_root_tag)\
             .load(source_location) 
 
-# xml_input_eikon.dtypes
+# xml_input.dtypes
 xml_input = xml_input.withColumn("source_filename", input_file_name())
 xml_input = xml_input.withColumn("disk", lit(input_disk_number))
 
